@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Хмара чеснот · Олександр 50</title>
+<style>
+  :root{ --gold:#f4c46b; --wine:#d98a9c; --sky:#c9bce8;
+    --serif:"Times New Roman", Georgia, serif; --sans:-apple-system,"Segoe UI",Roboto,sans-serif; }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{font-family:var(--serif); color:#fff8ee; overflow:hidden;
+    background:radial-gradient(120% 90% at 50% 15%, #4a3f6e 0%, #2e2a4a 55%, #1a1730 100%);}
+  .gate{position:fixed; inset:0; z-index:50; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:2rem;
+    background:radial-gradient(120% 90% at 50% 20%, #4a3f6e, #1a1730);}
+  .gate h1{font-size:2rem; font-weight:400; margin-bottom:.4rem;}
+  .gate p{color:#cfc3e8; opacity:.8; margin-bottom:1.8rem; font-style:italic; max-width:20em;}
+  .gate input{padding:.9rem 1.2rem; border:none; border-radius:12px; font-family:var(--serif);
+    font-size:1.2rem; text-align:center; background:#fffdf9; color:#2a2320; width:min(80vw,300px);}
+  .gate button{margin-top:1rem; padding:.9rem 2rem; border:none; border-radius:12px; cursor:pointer;
+    background:var(--gold); color:#3a2f1a; font-family:var(--sans); font-size:1rem; font-weight:600;}
+  .gate .err{color:#f0a0a0; font-size:.9rem; margin-top:.8rem; min-height:1.2em; font-style:normal;}
+  .gate .seal{font-family:var(--sans); letter-spacing:.4em; font-size:.66rem; text-transform:uppercase;
+    color:var(--gold); opacity:.7; margin-bottom:1.6rem;}
+  .bar{position:fixed; top:0; left:0; right:0; z-index:10; display:none; gap:.6rem;
+    padding:.9rem 1rem; align-items:center;
+    background:linear-gradient(180deg, rgba(26,23,48,.92), rgba(26,23,48,0));}
+  .bar input{flex:1; min-width:0; padding:.85rem 1.1rem; border:none; border-radius:12px;
+    font-family:var(--serif); font-size:1.15rem; background:#fffdf9; color:#2a2320;}
+  .bar button{padding:.85rem 1.3rem; border:none; border-radius:12px; cursor:pointer;
+    font-family:var(--sans); font-size:1rem; background:var(--gold); color:#3a2f1a; font-weight:600;}
+  .bar .ghost{background:rgba(255,248,238,.14); color:#fff8ee; padding:.85rem 1rem;}
+  .title-strip{position:fixed; top:0; left:0; right:0; z-index:5; text-align:center;
+    padding-top:5.2rem; pointer-events:none; opacity:.5; display:none;}
+  .title-strip .lbl{font-family:var(--sans); letter-spacing:.4em; text-transform:uppercase;
+    font-size:.66rem; color:var(--gold);}
+  .title-strip.viewonly{padding-top:1.4rem;}
+  #cloud{position:fixed; inset:0; display:flex; flex-wrap:wrap; align-content:center;
+    justify-content:center; gap:.2em .5em; padding:6rem 4vw 3rem; overflow:hidden;}
+  .w{display:inline-block; line-height:1.05; padding:.05em .1em; white-space:nowrap;
+    animation:pop .5s cubic-bezier(.2,1.3,.4,1) both; transition:font-size .6s ease, color .6s ease;}
+  @keyframes pop{from{transform:scale(.3); opacity:0;} to{transform:scale(1); opacity:1;}}
+  @keyframes glow{0%,100%{filter:drop-shadow(0 0 0 rgba(244,196,107,0));}
+    50%{filter:drop-shadow(0 0 14px rgba(244,196,107,.5));}}
+  .w.bump{animation:glow .8s ease;}
+  .empty{position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+    text-align:center; color:#cfc3e8; opacity:.5; font-style:italic; font-size:1.4rem; padding:2rem;}
+  .count{position:fixed; bottom:1rem; left:50%; transform:translateX(-50%); z-index:6;
+    font-family:var(--sans); font-size:.72rem; letter-spacing:.14em; color:#cfc3e8; opacity:.45;}
+  .status{position:fixed; bottom:1rem; right:1rem; z-index:6; font-family:var(--sans);
+    font-size:.66rem; letter-spacing:.1em; opacity:.55; display:none; align-items:center; gap:.4rem;}
+  .dot{width:8px; height:8px; border-radius:50%; background:#8fd0c4;}
+  .dot.off{background:#f0a878;}
+  @media (prefers-reduced-motion: reduce){ .w{animation:none;} .w.bump{animation:none;} }
+</style>
+</head>
+<body>
+  <div class="gate" id="gate">
+    <div class="seal">хмара чеснот · Олександр 50</div>
+    <h1>Слово для вечора</h1>
+    <p>Введіть кодове слово, яке назвали організатори.</p>
+    <input id="code" type="text" placeholder="кодове слово" autocomplete="off" autocapitalize="none">
+    <button id="enterBtn">Увійти</button>
+    <div class="err" id="cerr"></div>
+  </div>
+  <div class="bar" id="bar">
+    <input id="inp" type="text" placeholder="Чеснота Олександра — і Enter" autocomplete="off" autocapitalize="none">
+    <button id="addBtn">Додати</button>
+    <button class="ghost" id="fsBtn" title="На весь екран">⛶</button>
+  </div>
+  <div class="title-strip" id="strip"><div class="lbl">хмара чеснот · Олександр 50</div></div>
+  <div id="cloud"></div>
+  <div class="empty" id="empty">Тут з’являться чесноти, які назве стіл</div>
+  <div class="count" id="count"></div>
+  <div class="status" id="status"><span class="dot" id="dot"></span><span id="stext">під’єднання…</span></div>
+
+<!-- ЛОГІКА ВОРІТ — звичайний скрипт, працює завжди -->
+<script>
+  var CODE = "maryna";
+  var viewOnly = new URLSearchParams(location.search).has("view");
+  var PAL = ["#f4c46b","#d98a9c","#c9bce8","#8fd0c4","#f0a878","#b6c98f","#e8d9a0"];
+  var words = {}, prevMax = {};
+  window.__fb = { push:null, ready:false };   // сюди модуль покладе функцію запису
+
+  function norm(s){ return s.trim().toLowerCase().replace(/\s+/g," "); }
+  function esc(s){ return String(s).replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function hash(s){ var h=0; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return h; }
+  function fontFor(n){ return Math.min(2.0+(n-1)*1.05, 8.5)+"rem"; }
+
+  function checkCode(){
+    var v = norm(document.getElementById("code").value).replace("марина","maryna");
+    if(v===CODE){
+      document.getElementById("gate").style.display="none";
+      if(!viewOnly) document.getElementById("bar").style.display="flex";
+      var strip=document.getElementById("strip"); strip.style.display="block";
+      if(viewOnly) strip.classList.add("viewonly");
+      document.getElementById("status").style.display="flex";
+      if(!viewOnly) setTimeout(function(){document.getElementById("inp").focus();},100);
+      render();
+    } else {
+      document.getElementById("cerr").textContent="Спробуйте ще раз 🙂";
+    }
+  }
+  function addWord(){
+    var inp=document.getElementById("inp");
+    if(!inp.value.trim()) return;
+    if(window.__fb.ready){ window.__fb.push(inp.value); }
+    inp.value=""; inp.focus();
+  }
+  function fullscreen(){
+    if(!document.fullscreenElement) (document.documentElement.requestFullscreen||function(){})();
+    else (document.exitFullscreen||function(){})();
+  }
+  function setStatus(on){
+    var d=document.getElementById("dot"), t=document.getElementById("stext");
+    if(on){ d.classList.remove("off"); t.textContent="наживо"; }
+    else { d.classList.add("off"); t.textContent="очікує мережу…"; }
+  }
+  function render(){
+    var cloud=document.getElementById("cloud");
+    var entries=Object.keys(words).map(function(k){return {k:k, text:words[k].text, n:words[k].n||1};});
+    document.getElementById("empty").style.display = entries.length? "none":"flex";
+    document.getElementById("count").textContent = entries.length?
+      (entries.length+" чеснот · "+entries.reduce(function(s,e){return s+e.n;},0)+" голосів"):"";
+    entries.sort(function(a,b){return b.n-a.n;});
+    var arranged=[]; entries.forEach(function(it,i){ i%2? arranged.push(it): arranged.unshift(it); });
+    cloud.innerHTML = arranged.map(function(it){
+      var col=PAL[hash(it.k)%PAL.length];
+      var bump=(prevMax[it.k]||0)<it.n?"bump":""; prevMax[it.k]=it.n;
+      return '<span class="w '+bump+'" style="font-size:'+fontFor(it.n)+'; color:'+col+'">'+esc(it.text)+'</span>';
+    }).join("");
+  }
+  // експонуємо для модуля
+  window.__cloud = { setWords:function(w){ words=w||{}; render(); }, setStatus:setStatus, norm:norm };
+
+  document.getElementById("enterBtn").addEventListener("click", checkCode);
+  document.getElementById("addBtn").addEventListener("click", addWord);
+  document.getElementById("fsBtn").addEventListener("click", fullscreen);
+  document.getElementById("code").addEventListener("keydown", function(e){ if(e.key==="Enter") checkCode(); });
+  document.getElementById("inp").addEventListener("keydown", function(e){ if(e.key==="Enter") addWord(); });
+</script>
+
+<!-- FIREBASE — окремий модуль. Якщо не завантажиться, ворота й хмара все одно живі -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, runTransaction }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  // ============================================================
+  //  ВСТАВТЕ СЮДИ КЛЮЧ ВАШОЇ БАЗИ (з інструкції, крок 5)
+  // ============================================================
+  const firebaseConfig = {
+    apiKey: "AIzaSyCx5wWD_nqNim4NhVwsVo4LllgaoTRSD-w",
+    authDomain: "bilyakov-assets.firebaseapp.com",
+    databaseURL: "https://bilyakov-assets-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "bilyakov-assets",
+    storageBucket: "bilyakov-assets.firebasestorage.app",
+    messagingSenderId: "716274073756",
+    appId: "1:716274073756:web:5456688c674217202a2d59",
+    measurementId: "G-GNNTCX2BGF"
+  };
+  // ============================================================
+
+  const SEED = ["надійний","щирий"];
+  const viewOnly = new URLSearchParams(location.search).has("view");
+
+  try{
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+    const dbRef = ref(db, "virtues");
+    let seeded=false;
+
+    window.__fb.push = function(raw){
+      const k = window.__cloud.norm(raw); if(!k) return;
+      const wr = ref(db, "virtues/"+encodeURIComponent(k));
+      runTransaction(wr, cur=>{
+        if(cur===null) return {text: raw.trim(), n:1};
+        cur.n=(cur.n||1)+1; return cur;
+      });
+    };
+    window.__fb.ready = true;
+
+    onValue(dbRef, snap=>{
+      window.__cloud.setWords(snap.val() || {});
+      window.__cloud.setStatus(true);
+      if(!seeded && !snap.exists() && !viewOnly){
+        seeded=true; SEED.forEach(w=>window.__fb.push(w));
+      }
+    }, err=>{ window.__cloud.setStatus(false); });
+  }catch(e){
+    window.__cloud.setStatus(false);
+    console.error("Firebase config не заповнено або помилковий:", e);
+  }
+</script>
+</body>
+</html>
