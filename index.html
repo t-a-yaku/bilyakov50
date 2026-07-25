@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Олександр · 50</title>
+<style>
+  :root{
+    --ink:#2a2320; --paper:#fbf6ee;
+    --dawn1:#f4c46b; --dawn2:#e88a4c; --dusk1:#6b5b95; --dusk2:#2e2a4a;
+    --gold:#c8843c; --wine:#9c4c5c;
+    --serif:"Times New Roman", Georgia, serif;
+    --sans:-apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--serif); color:var(--ink); background:var(--paper);
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+
+  /* ---------- HERO: два сонця над океаном ---------- */
+  .hero{position:relative; min-height:100svh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; overflow:hidden;
+    padding:8vh 6vw;
+    background:linear-gradient(180deg,#2e2a4a 0%,#6b5b95 34%,#e88a4c 72%,#f4c46b 100%);}
+  .sky-sun{position:absolute; border-radius:50%; filter:blur(1px);}
+  .sun-dawn{width:min(46vw,220px); height:min(46vw,220px);
+    background:radial-gradient(circle,#fff3d6 0%,#f4c46b 45%,rgba(244,196,107,0) 72%);
+    right:-6vw; bottom:14vh; animation:rise 6s ease-out both;}
+  .sun-dusk{width:min(40vw,190px); height:min(40vw,190px);
+    background:radial-gradient(circle,#cfc3e8 0%,#6b5b95 42%,rgba(107,91,149,0) 72%);
+    left:-5vw; top:9vh; animation:set 6s ease-out both;}
+  @keyframes rise{from{transform:translateY(40px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+  @keyframes set{from{transform:translateY(-30px); opacity:0;} to{transform:translateY(0); opacity:.9;}}
+  .hero-inner{position:relative; z-index:2; color:#fff8ee;
+    text-shadow:0 2px 30px rgba(46,42,74,.5);}
+  .eyebrow{font-family:var(--sans); letter-spacing:.42em; text-transform:uppercase;
+    font-size:.72rem; opacity:.9; margin-bottom:2.2rem; padding-left:.42em;}
+  .hero h1{font-size:clamp(2.6rem,12vw,5.2rem); font-weight:400; line-height:1.02;
+    letter-spacing:.01em;}
+  .hero .fifty{display:block; font-size:clamp(4.5rem,26vw,11rem); font-weight:700;
+    line-height:.9; margin:.4rem 0 .2rem; letter-spacing:-.02em;
+    background:linear-gradient(180deg,#fff8ee,#f4c46b); -webkit-background-clip:text;
+    background-clip:text; -webkit-text-fill-color:transparent;}
+  .hero .years{font-family:var(--sans); font-size:.8rem; letter-spacing:.3em;
+    opacity:.85; text-transform:uppercase;}
+  .hero-tag{margin-top:2.6rem; font-style:italic; font-size:clamp(1rem,4.4vw,1.3rem);
+    max-width:22em; opacity:.96; line-height:1.5;}
+  .scroll-cue{position:absolute; bottom:3vh; left:50%; transform:translateX(-50%);
+    z-index:2; color:#fff8ee; font-family:var(--sans); font-size:.68rem;
+    letter-spacing:.24em; text-transform:uppercase; opacity:.85; animation:bob 2.4s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(7px);}}
+
+  /* ---------- секції ---------- */
+  section.block{padding:12vh 6vw; max-width:760px; margin:0 auto;}
+  .sect-label{font-family:var(--sans); letter-spacing:.34em; text-transform:uppercase;
+    font-size:.7rem; color:var(--gold); margin-bottom:1.4rem; text-align:center;}
+  .sect-title{font-size:clamp(1.8rem,7vw,2.6rem); font-weight:400; text-align:center;
+    line-height:1.14; margin-bottom:1.6rem;}
+  .sect-lead{font-size:1.08rem; line-height:1.7; text-align:center; color:#5a4f47;
+    max-width:34em; margin:0 auto;}
+
+  .divider{width:70px; height:2px; background:var(--gold); margin:0 auto 2.2rem; opacity:.6;}
+
+  /* ---------- портрет + коли/де ---------- */
+  .portrait{width:min(72vw,300px); aspect-ratio:4/5; margin:0 auto 2.4rem; border-radius:20px;
+    overflow:hidden; box-shadow:0 14px 40px rgba(46,42,74,.22); border:3px solid #fff;}
+  .portrait img{width:100%; height:100%; object-fit:cover; display:block;}
+  .portrait-ph{width:100%; height:100%; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; background:linear-gradient(160deg,#f2e9db,#e6d8c2); color:#a2917a;
+    font-family:var(--sans); font-size:.9rem; letter-spacing:.06em; line-height:1.7;}
+  .portrait-ph span{font-size:.72rem; opacity:.7;}
+  .when{display:inline-flex; flex-direction:column; gap:1rem; text-align:left;
+    background:#f6efe2; border-radius:16px; padding:1.4rem 1.8rem;}
+  .when-row{display:flex; gap:.9rem; align-items:center; font-size:1.08rem; line-height:1.4;}
+  .when-ico{font-size:1.3rem; color:var(--gold); min-width:1.2em; text-align:center;}
+  .when-sub{color:#7a6f62; font-size:.94rem;}
+
+  /* ---------- пісні ---------- */
+  .songs{background:linear-gradient(180deg,#6b5b95,#3a3358);}
+  .song{display:flex; flex-direction:column; background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,248,238,.16); border-radius:14px; padding:1rem 1.1rem;
+    margin-bottom:.9rem; text-align:left;}
+  .song-top{display:flex; align-items:center; gap:1rem;}
+  .song-num{min-width:40px; height:40px; border-radius:50%;
+    background:rgba(244,196,107,.2); color:#f4c46b; font-size:1rem; display:flex;
+    align-items:center; justify-content:center; font-family:var(--sans);}
+  .song-meta{flex:1; color:#fff8ee;}
+  .song-title{font-size:1.05rem; margin-bottom:.15rem;}
+  .song-sub{font-family:var(--sans); font-size:.74rem; opacity:.7; letter-spacing:.04em;}
+  .song audio{width:100%; margin-top:.8rem;}
+  .songs-empty{color:#e8e2f0; opacity:.8; font-family:var(--sans); font-size:.88rem; line-height:1.6;
+    border:1.5px dashed rgba(255,248,238,.3); border-radius:14px; padding:1.6rem;}
+
+  /* ---------- галерея ---------- */
+  .gallery{text-align:center;}
+  .album-btn{display:inline-block; margin-top:1rem; padding:1.1rem 2.2rem; border-radius:14px;
+    background:var(--gold); color:#fff; font-family:var(--sans); font-size:1.02rem; letter-spacing:.03em;
+    text-decoration:none; box-shadow:0 8px 22px rgba(200,132,60,.3);}
+  .gallery-empty{margin-top:2rem; padding:3rem 2rem; border:2px dashed #d8cbb6;
+    border-radius:16px; color:#8a7d6c;}
+  .gallery-empty .ico{font-size:2.4rem; margin-bottom:1rem; opacity:.6;}
+
+  /* ---------- як грати ---------- */
+  .how{background:#f2e9db;}
+  .how-steps{display:flex; flex-direction:column; gap:1.1rem; margin-top:2.4rem;}
+  .how-step{display:flex; gap:1rem; align-items:flex-start; text-align:left;}
+  .how-num{font-size:1.5rem; font-weight:700; color:var(--gold); min-width:1.5em; line-height:1.2;}
+  .how-step p{line-height:1.6; font-size:1.02rem;}
+
+  /* ---------- картки ---------- */
+  .deck-intro{text-align:center; margin-bottom:2.6rem;}
+  .card{border:1.5px solid var(--c); border-radius:16px; background:#fffdf9;
+    padding:1.9rem 1.7rem; margin:0 auto 1.3rem; max-width:560px;
+    box-shadow:0 6px 24px rgba(42,35,32,.06);}
+  .card-head{display:flex; justify-content:space-between; align-items:center;
+    border-bottom:1px solid var(--c); padding-bottom:.7rem; margin-bottom:1rem;}
+  .card-num{font-size:1.9rem; font-weight:700; color:var(--c);}
+  .card-cat{font-family:var(--sans); font-size:.6rem; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--c); border:1px solid var(--c);
+    border-radius:20px; padding:.28em .8em;}
+  .card-title{font-size:1.5rem; font-weight:400; color:var(--c); margin-bottom:.8rem; line-height:1.15;}
+  .card-task{font-size:1.06rem; line-height:1.62;}
+  .card-toast{margin-top:1.1rem; background:#f6efe2; border-left:3px solid var(--c);
+    border-radius:0 8px 8px 0; padding:.9rem 1.1rem; font-style:italic; font-size:1rem; line-height:1.5;}
+  .card-toast b{display:block; font-family:var(--sans); font-style:normal; font-size:.6rem;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--c); margin-bottom:.35rem;}
+  .card-humor{margin-top:.9rem; font-size:.92rem; color:#7a6a4c; line-height:1.45;}
+  .card-humor b{display:block; font-family:var(--sans); font-style:normal; font-size:.56rem;
+    letter-spacing:.14em; text-transform:uppercase; color:#a08048; margin-bottom:.2rem; font-weight:400;}
+
+  /* фільтр за актами */
+  .acts{display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin-bottom:2.4rem;}
+  .act-pill{font-family:var(--sans); font-size:.72rem; letter-spacing:.06em; padding:.5em 1em;
+    border-radius:20px; border:1.5px solid #d8cbb6; background:transparent; color:#6a5f52;
+    cursor:pointer; transition:.2s;}
+  .act-pill.on{background:var(--ap,#c8843c); border-color:var(--ap,#c8843c); color:#fff;}
+
+  /* ---------- слово Олександру ---------- */
+  .word{background:linear-gradient(180deg,#6b5b95,#2e2a4a); color:#fff8ee;}
+  .word .sect-title, .word .sect-lead{color:#fff8ee;}
+  .word .sect-lead{opacity:.9;}
+  .word-form{max-width:440px; margin:2.4rem auto 0;}
+  .word-form textarea{width:100%; min-height:120px; border-radius:12px; border:none;
+    padding:1rem; font-family:var(--serif); font-size:1.05rem; resize:vertical; line-height:1.5;}
+  .word-form input{width:100%; border-radius:12px; border:none; padding:.9rem 1rem;
+    font-family:var(--serif); font-size:1rem; margin-top:.8rem;}
+  .send-btn{width:100%; margin-top:1rem; padding:1rem; border:none; border-radius:12px;
+    background:var(--gold); color:#fff; font-family:var(--sans); font-size:1rem;
+    letter-spacing:.04em; cursor:pointer; transition:.2s;}
+  .send-btn:active{transform:scale(.98);}
+  .word-note{font-family:var(--sans); font-size:.8rem; opacity:.75; text-align:center; margin-top:1rem;}
+
+  /* ---------- галерея (заглушка) ---------- */
+  .gallery{text-align:center;}
+  .gallery-empty{margin-top:2.4rem; padding:3rem 2rem; border:2px dashed #d8cbb6;
+    border-radius:16px; color:#8a7d6c;}
+  .gallery-empty .ico{font-size:2.4rem; margin-bottom:1rem; opacity:.6;}
+
+  footer{text-align:center; padding:8vh 6vw 10vh; background:#2e2a4a; color:#cfc3e8;}
+  footer .fseal{font-size:1.6rem; letter-spacing:.1em; margin-bottom:.8rem; color:#f4c46b;}
+  footer p{font-family:var(--sans); font-size:.78rem; letter-spacing:.08em; line-height:1.9; opacity:.8;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="sky-sun sun-dusk"></div>
+    <div class="sky-sun sun-dawn"></div>
+    <div class="hero-inner">
+      <div class="eyebrow">Оспівування</div>
+      <h1>Олександр<br>Біляков</h1>
+      <span class="fifty">50</span>
+      <div class="years">1976 — 2026</div>
+      <p class="hero-tag">Роками між двома континентами щодня звучав його голос.
+        Сьогодні наша черга — говорити.</p>
+    </div>
+    <div class="scroll-cue">гортайте вниз ↓</div>
+  </header>
+
+  <!-- ПОРТРЕТ + КОЛИ Й ДЕ -->
+  <section class="block" style="text-align:center;">
+    <div class="portrait" id="portrait">
+      <div class="portrait-ph">портрет Олександра<br><span>додамо завтра</span></div>
+    </div>
+    <div class="when">
+      <div class="when-row"><span class="when-ico">◷</span><div><b>27 липня</b>, понеділок · 18:30</div></div>
+      <div class="when-row"><span class="when-ico">⌂</span><div>Ресторан «Краків»<br><span class="when-sub">Берестейське шосе 8А, Київ</span></div></div>
+    </div>
+  </section>
+
+
+  <!-- ЯК ГРАТИ -->
+  <section class="how block" style="max-width:none;">
+    <div style="max-width:640px; margin:0 auto;">
+      <div class="sect-label">церемонія</div>
+      <h2 class="sect-title">Як це працює</h2>
+      <div class="divider"></div>
+      <p class="sect-lead">Це не конкурси. Це спосіб вимовити вголос те, що зазвичай
+        лишається несказаним. Гра збирається сама — просто йдіть за картками.</p>
+      <div class="how-steps">
+        <div class="how-step"><div class="how-num">1</div><p>Гість витягує картку й читає завдання вголос.</p></div>
+        <div class="how-step"><div class="how-num">2</div><p>Виконує його — коротко, дві-три хвилини. Історія, спогад, побажання.</p></div>
+        <div class="how-step"><div class="how-num">3</div><p>Звучить тост із картки. Потім — усмішка, і стіл повертається до свята.</p></div>
+        <div class="how-step"><div class="how-num">4</div><p>Картки йдуть від легких до глибоких. Тримайтеся порядку — і вечір збереться сам.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- КАРТКИ -->
+  <section class="block">
+    <div class="deck-intro">
+      <div class="sect-label">18 карток</div>
+      <h2 class="sect-title">Колода вечора</h2>
+      <div class="divider"></div>
+      <p class="sect-lead">Ті самі картки, що й на столі — тут можна прочитати з телефона великим шрифтом.</p>
+    </div>
+    <div class="acts" id="acts"></div>
+    <div id="deck"></div>
+  </section>
+
+  <!-- СЛОВО -->
+  <section class="word block" style="max-width:none;">
+    <div style="max-width:560px; margin:0 auto; text-align:center;">
+      <div class="sect-label" style="color:#f4c46b;">від серця</div>
+      <h2 class="sect-title">Залиште слово Олександру</h2>
+      <div class="divider"></div>
+      <p class="sect-lead">Напишіть побажання чи спогад. Одним дотиком воно надійде організаторам —
+        і ввійде в пам’ятний альбом родини.</p>
+      <div class="word-form">
+        <textarea id="w-text" placeholder="Ваше побажання, спогад, тост…"></textarea>
+        <input id="w-name" type="text" placeholder="Хто ви (ім’я)">
+        <button class="send-btn" onclick="sendWord()">Надіслати слово</button>
+        <p class="word-note">Відкриється ваш месенджер із готовим текстом — лишиться натиснути «Надіслати».</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПІСНІ ВЕЧОРА -->
+  <section class="songs block" style="max-width:none;">
+    <div style="max-width:560px; margin:0 auto; text-align:center;">
+      <div class="sect-label" style="color:#f4c46b;">звучить для нього</div>
+      <h2 class="sect-title" style="color:#fff8ee;">Пісні вечора</h2>
+      <div class="divider"></div>
+      <p class="sect-lead" style="color:#fff8ee; opacity:.9;">Кілька пісень, написаних спеціально для Олександра.</p>
+      <div id="songs"></div>
+    </div>
+  </section>
+
+  <!-- АЛЬБОМ -->
+  <section class="gallery block">
+    <div class="sect-label">пам’ять вечора</div>
+    <h2 class="sect-title">Фото та відео</h2>
+    <div class="divider"></div>
+    <div id="gallery"></div>
+  </section>
+
+
+  <footer>
+    <div class="fseal">ОБ · 50</div>
+    <p>Олександр Біляков · 27 липня 2026<br>
+    Зроблено з любов’ю тими, хто поруч</p>
+  </footer>
+
+<script>
+  const CARDS = [{"num": "01", "act": "Розігрів", "cat": "Знайомство", "title": "Спіймали на гарячому", "task": "Сьогодні Олександр думав, що йде знайомитися з невісткою — а потрапив на власний ювілей. Розкажіть, як ви самі відреагували б, якби вас отак «заманили». І зізнайтеся чесно: ви добре тримали язика за зубами, чи ледь не проговорилися?", "toast": "За те, що деякі сюрправи вдаються навіть таким прозорливим людям, як Олександр!", "humor": "Хтось точно ледь не написав йому «ну що, готовий?» не в той чат.", "color": "#C8843C"}, {"num": "02", "act": "Розігрів", "cat": "Знайомство", "title": "Як усе почалося", "task": "У кожного за цим столом є «перший кадр» — момент, коли Олександр уперше з’явився у вашому житті. Контракт, дзвінок, спільна вечеря, випадкова зустріч. Опишіть цей перший кадр одним реченням.", "toast": "За перші зустрічі, які непомітно переростають у дружбу на все життя!", "humor": "Виявиться, що половина столу познайомилася з ним «по роботі», а лишилася — назавжди.", "color": "#C8843C"}, {"num": "03", "act": "Розігрів", "cat": "Гумор", "title": "Букет із віскі", "task": "Легенда свідчить, що колись на дні народження Олександра з’явився букет, у якому замість квітів були ковбаски, сир і пляшка доброго віскі. А поруч — яскравий букет з овочів навколо боржомі. Придумайте, який «букет» подарували б Олександру ви — з чого саме він був би зібраний?", "toast": "За людей, які вміють дивувати, і за подарунки, що запам’ятовуються на роки!", "humor": "Відтоді планка задана так високо, що з простим тортом до нього йти якось незручно.", "color": "#C8843C"}, {"num": "04", "act": "Символи", "cat": "Символи", "title": "Той, хто привозить", "task": "Олександр — з тих, хто з’являється з рішенням саме тоді, коли треба. Комусь — ноутбук у перший місяць війни. Комусь — новий монітор замість старого. Згадайте (або уявіть) річ, яку Олександр привіз саме вам — і що вона для вас означала.", "toast": "За людину, яка привозить не просто техніку, а відчуття, що ти не сам!", "humor": "У нього замість «привіт» — «тобі щось треба? я по дорозі завезу».", "color": "#3C7A8C"}, {"num": "05", "act": "Символи", "cat": "Символи", "title": "Безперебійне живлення", "task": "Є люди, які тримають напругу, коли в інших усе гасне. Олександр — саме такий «безперебійник». Згадайте момент, коли всі розгубилися, а він залишився спокійним і витягнув ситуацію.", "toast": "За того, хто тримає, коли навколо падає напруга. За нашу опору!", "humor": "Якщо десь вибиває пробки — усі інстинктивно дивляться в бік Олександра.", "color": "#3C7A8C"}, {"num": "06", "act": "Символи", "cat": "Символи", "title": "Надійне з’єднання", "task": "Олександр усе життя з’єднує — людей, компанії, системи. Багато хто за цим столом познайомився одне з одним саме через нього. Знайдіть у залі людину, яку ви знаєте завдяки Олександру, підніміть за неї келих і скажіть їй одне тепле слово.", "toast": "За людину-місток, завдяки якій ми всі сьогодні за одним столом!", "humor": "Його телефонна книга — це, по суті, схема, як половина Києва пов’язана між собою.", "color": "#3C7A8C"}, {"num": "07", "act": "Чесноти", "cat": "Характер", "title": "Слово, міцніше за контракт", "task": "Про Олександра кажуть: його слово надійніше за будь-який підписаний папір. Згадайте випадок, коли він пообіцяв — і зробив, навіть коли це було невигідно чи важко.", "toast": "За чоловіка, чиє «домовились» вартує більше, ніж чужі підписи й печатки!", "humor": "Юристи поруч із ним трохи нервують: навіщо стільки пунктів, якщо є його слово.", "color": "#8C5A3C"}, {"num": "08", "act": "Чесноти", "cat": "Характер", "title": "Сам собі фундамент", "task": "Олександр з 14 років звик покладатися лише на себе. Усе, що має, він збудував власними руками — з нуля. Скажіть, яка його риса «людини, що зробила себе сама» найбільше вас вражає або надихає.", "toast": "За силу, яка не дісталася в спадок, а була викувана самотужки!", "humor": "Коли він каже «ну це нескладно» — знай, що нормальна людина там би здалася тричі.", "color": "#8C5A3C"}, {"num": "09", "act": "Чесноти", "cat": "Характер", "title": "Не залишить у біді", "task": "Є люди, повз яких проходиш, і є ті, до кого йдеш, коли погано. Олександр — з других. Не називаючи зайвих деталей, скажіть: чи був момент, коли він простягнув вам руку — і ви це запам’ятали?", "toast": "За плече, на яке можна спертися будь-якої миті. За справжність!", "humor": "«Я зараз приїду» від нього — не фігура мови, а вже майже виїхав.", "color": "#8C5A3C"}, {"num": "10", "act": "Чесноти", "cat": "Команда", "title": "Локомотив", "task": "У своїй родині й у справах Олександр завжди був тим, хто тягне вперед і не дає зупинитися. Опишіть Олександра трьома словами — так, ніби представляєте його людині, яка з ним ще не знайома.", "toast": "За рушія, який тягне за собою і ніколи не збавляє швидкості!", "humor": "Відпочинок для нього — це коли він встиг зробити лише п’ять справ замість п’ятнадцяти.", "color": "#8C5A3C"}, {"num": "11", "act": "Перемога над собою", "cat": "Життєвий шлях", "title": "Мінус сорок п’ять", "task": "За цей рік Олександр зробив те, на що наважується мало хто: узяв себе в руки й скинув 45 кілограмів. Підніміть келих (краще з водою!) за цю перемогу й скажіть, що вона для вас говорить про його характер.", "toast": "За найважчу перемогу — над самим собою. Мінус сорок п’ять, плюс роки життя!", "humor": "Єдиний, кому сумно від цих мінус 45 — це його старий гардероб.", "color": "#4C7A4C"}, {"num": "12", "act": "Перемога над собою", "cat": "Побажання", "title": "Ще на сто років", "task": "Олександр цього року всерйоз узявся за здоров’я — і виграв. Побажайте йому щось, що допоможе триматися цього курсу. Тільки без нудних «бережи себе» — придумайте побажання, від якого він усміхнеться і водночас задумається.", "toast": "За те, щоб серце було міцним, а приводів для радості — безліч!", "humor": "Наступний виклик — навчити друзів встигати за ним на ранковій пробіжці.", "color": "#4C7A4C"}, {"num": "13", "act": "Родина", "cat": "Сім’я", "title": "Батько, яким пишаються", "task": "Син Олександра повернувся в Україну напередодні свого 18-річчя, пішов у штурмовики, а цього року одружується. Такі діти не виростають випадково — за ними стоїть батько. Скажіть Олександру, що саме в ньому виховало в синові цю силу й цей стрижень.", "toast": "За батька, чий приклад син поніс далі — у найважчі й найважливіші справи!", "humor": "", "color": "#9C4C5C"}, {"num": "14", "act": "Родина", "cat": "Сім’я", "title": "Дзвінок через океан", "task": "Чотири роки Олександр щоранку й щовечора телефонує рідним за океан: коли в нас сходить сонце — у них ще ніч. Сьогодні все навпаки: це його рідні дзвонять йому. Поки чекаємо на цей дзвінок, скажіть Олександру те, що зазвичай кажуть тільки найближчим.", "toast": "За любов, яку не змили ні океан, ні чотири роки, ні кілометри!", "humor": "", "color": "#9C4C5C"}, {"num": "15", "act": "Родина", "cat": "Дружба", "title": "Своя людина", "task": "Марина каже: найбільше багатство — це зустріти свою людину. Багато хто за цим столом теж вважає Олександра «своєю людиною». Договоріть уголос: «Олександр — це моя людина, тому що…»", "toast": "За рідкісне щастя — мати у своєму житті таку людину, як він!", "humor": "", "color": "#9C4C5C"}, {"num": "16", "act": "Майбутнє", "cat": "Майбутнє", "title": "День, коли обіймемося", "task": "Настане день, коли не треба буде рахувати кілометри — коли родина буде разом, під одним небом. Опишіть, яким ви уявляєте цей день. Де це станеться, хто перший обійме, що буде на столі?", "toast": "За той день. Він настане — і ми будемо поруч, щоб його зустріти!", "humor": "", "color": "#5C5C9C"}, {"num": "17", "act": "Майбутнє", "cat": "Майбутнє", "title": "Слово для молодих", "task": "Цей вечір знімають на відео — його побачать діти Олександра: Крістіна, син Ярослав і його наречена Тетяна, яка цього року входить у родину. Крістіна й Ярослав успадкували магнетизм і велике серце батьків — з цього вони будуватимуть уже власні родини. Подивіться в камеру й скажіть їм те, що ви хотіли б, аби вони знали про свого тата.", "toast": "За рід, що росте й міцніє: за Крістіну, за Ярослава й Тетяну, і за приклад, який дав їм Олександр!", "humor": "", "color": "#5C5C9C"}, {"num": "18", "act": "Майбутнє", "cat": "Спільна", "title": "Хмара чеснот (фінальна)", "task": "ФІНАЛ. Кожен по колу називає одне слово — чесноту Олександра, яку сьогодні почув або згадав. Не повторюватися! Ці слова записує ведучий — вони стануть «хмарою чеснот», яку передадуть Олександру та його родині.", "toast": "За людину, яку ми щойно змалювали разом. Таким тебе бачимо ми всі. З ювілеєм, Олександре!", "humor": "", "color": "#5C5C9C"}];
+
+  // ============================================================
+  //  НАЛАШТУВАННЯ — сюди вставляються посилання (див. інструкцію)
+  // ============================================================
+
+  // Портрет: постав пряме посилання на фото або лишай "" для заглушки
+  const PORTRAIT_URL = "";
+
+  // Пісні Suno: додавай об'єкти. audio — ПРЯМЕ посилання на .mp3 (Suno → Download → скопіювати),
+  // або лишай audio:"" і встав link на сторінку пісні (буде кнопка "Слухати").
+  const SONGS = [
+    // { title:"Голос через океан", sub:"написано для Олександра", audio:"", link:"" },
+  ];
+
+  // Гугл-фото альбом: встав share-посилання альбому, або лишай "" — тоді буде "скоро"
+  const ALBUM_URL = "";
+
+  // Організатор для збору слів
+  const ORGANIZER_PHONE = "";
+  const ORGANIZER_EMAIL = "";
+
+  // ============================================================
+
+  // --- портрет ---
+  if(PORTRAIT_URL){
+    document.getElementById('portrait').innerHTML =
+      `<img src="${PORTRAIT_URL}" alt="Олександр">`;
+  }
+
+  // --- пісні ---
+  (function(){
+    const box = document.getElementById('songs');
+    if(!SONGS.length){
+      box.innerHTML = `<div class="songs-empty">Пісні з’являться тут зовсім скоро.<br>Збережіть сторінку й поверніться.</div>`;
+      return;
+    }
+    box.innerHTML = SONGS.map((s,i)=>`
+      <div class="song">
+        <div class="song-top">
+          <div class="song-num">${i+1}</div>
+          <div class="song-meta">
+            <div class="song-title">${s.title||'Пісня '+(i+1)}</div>
+            ${s.sub?`<div class="song-sub">${s.sub}</div>`:''}
+          </div>
+          ${(!s.audio && s.link)?`<a class="song-play" href="${s.link}" target="_blank" style="text-decoration:none">▶</a>`:''}
+        </div>
+        ${s.audio?`<audio controls preload="none" src="${s.audio}"></audio>`:''}
+      </div>`).join('');
+  })();
+
+  // --- альбом ---
+  (function(){
+    const box = document.getElementById('gallery');
+    if(ALBUM_URL){
+      box.innerHTML = `<p class="sect-lead" style="margin-bottom:0">Усі кадри вечора — в одному альбомі.</p>
+        <a class="album-btn" href="${ALBUM_URL}" target="_blank">Відкрити альбом ↗</a>`;
+    } else {
+      box.innerHTML = `<div class="gallery-empty"><div class="ico">◷</div>
+        <p style="font-size:1.05rem; line-height:1.6;">Тут скоро з’явиться альбом зі свята.<br>
+        Збережіть цю сторінку й зазирніть за кілька днів.</p></div>`;
+    }
+  })();
+
+
+  const acts = [...new Set(CARDS.map(c=>c.act))];
+  const actColors = {}; CARDS.forEach(c=>actColors[c.act]=c.color);
+  let activeAct = "всі";
+
+  function renderPills(){
+    const box = document.getElementById('acts');
+    const all = ["всі", ...acts];
+    box.innerHTML = all.map(a=>{
+      const on = a===activeAct ? 'on':'';
+      const col = a==="всі" ? '#c8843c' : actColors[a];
+      return `<button class="act-pill ${on}" style="--ap:${col}" onclick="setAct('${a}')">${a}</button>`;
+    }).join('');
+  }
+  function setAct(a){ activeAct=a; renderPills(); renderDeck(); }
+
+  function renderDeck(){
+    const deck = document.getElementById('deck');
+    const list = activeAct==="всі" ? CARDS : CARDS.filter(c=>c.act===activeAct);
+    deck.innerHTML = list.map(c=>`
+      <div class="card" style="--c:${c.color}">
+        <div class="card-head">
+          <span class="card-num">${c.num}</span>
+          <span class="card-cat">${c.cat}</span>
+        </div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-task">${c.task}</div>
+        <div class="card-toast"><b>Тост</b>${c.toast}</div>
+        ${c.humor ? `<div class="card-humor"><b>☺ жарт на підхваті</b>${c.humor}</div>`:''}
+      </div>`).join('');
+  }
+
+  function sendWord(){
+    const t = document.getElementById('w-text').value.trim();
+    const n = document.getElementById('w-name').value.trim();
+    if(!t){ alert('Напишіть кілька слів 🙂'); return; }
+    const msg = `Слово Олександру на 50-річчя${n?` (від ${n})`:''}:\n\n${t}`;
+    if(ORGANIZER_PHONE){
+      window.location.href = `https://wa.me/${ORGANIZER_PHONE}?text=${encodeURIComponent(msg)}`;
+    } else if(ORGANIZER_EMAIL){
+      window.location.href = `mailto:${ORGANIZER_EMAIL}?subject=${encodeURIComponent('Слово Олександру · 50')}&body=${encodeURIComponent(msg)}`;
+    } else {
+      navigator.clipboard?.writeText(msg);
+      alert('Текст скопійовано. Вставте його у ваше повідомлення організаторам 💛\n(Організатор може вписати номер телефону в код, щоб слова йшли автоматично.)');
+    }
+  }
+
+  renderPills(); renderDeck();
+</script>
+</body>
+</html>
