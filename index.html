@@ -269,7 +269,7 @@
 
   <!-- АЛЬБОМ -->
   <section class="gallery block">
-    <div class="sect-label">пам’ять вечора</div>
+    <div class="sect-label">спільні спогади</div>
     <h2 class="sect-title">Фото та відео</h2>
     <div class="divider"></div>
     <div id="gallery"></div>
@@ -299,7 +299,7 @@
   ];
 
   // Гугл-фото альбом: встав share-посилання альбому, або лишай "" — тоді буде "скоро"
-  const ALBUM_URL = "";
+  const ALBUM_URL = "https://photos.app.goo.gl/zzV439RkvptnBnFV8";
 
   // Організатор для збору слів
   const ORGANIZER_PHONE = "";
@@ -338,7 +338,7 @@
   (function(){
     const box = document.getElementById('gallery');
     if(ALBUM_URL){
-      box.innerHTML = `<p class="sect-lead" style="margin-bottom:0">Усі кадри вечора — в одному альбомі.</p>
+      box.innerHTML = `<p class="sect-lead" style="margin-bottom:0">Наші спільні кадри зібрані тут — і торішні, і нові з цього вечора з’являться поруч.</p>
         <a class="album-btn" href="${ALBUM_URL}" target="_blank">Відкрити альбом ↗</a>`;
     } else {
       box.innerHTML = `<div class="gallery-empty"><div class="ico">◷</div>
