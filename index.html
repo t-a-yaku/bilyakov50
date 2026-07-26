@@ -89,6 +89,15 @@
   .song-title{font-size:1.05rem; margin-bottom:.15rem;}
   .song-sub{font-family:var(--sans); font-size:.74rem; opacity:.7; letter-spacing:.04em;}
   .song audio{width:100%; margin-top:.8rem;}
+  .song-soon{margin-top:.8rem; font-family:var(--sans); font-size:.82rem; opacity:.65;
+    font-style:italic; padding:.6rem 0;}
+  .lyrics-toggle{margin-top:.9rem; background:none; border:none; cursor:pointer;
+    font-family:var(--sans); font-size:.82rem; letter-spacing:.04em; color:#f4c46b;
+    padding:.2rem 0; opacity:.85;}
+  .lyrics{max-height:0; overflow:hidden; transition:max-height .5s ease;
+    font-size:1.02rem; line-height:1.7; color:#fff8ee; opacity:.92;}
+  .lyrics.open{max-height:3000px; margin-top:.8rem; padding-top:.8rem;
+    border-top:1px solid rgba(255,248,238,.18);}
   .songs-empty{color:#e8e2f0; opacity:.8; font-family:var(--sans); font-size:.88rem; line-height:1.6;
     border:1.5px dashed rgba(255,248,238,.3); border-radius:14px; padding:1.6rem;}
 
@@ -289,10 +298,21 @@
   // Портрет: постав пряме посилання на фото або лишай "" для заглушки
   const PORTRAIT_URL = "portrait.jpg";
 
-  // Пісні Suno: додавай об'єкти. audio — ПРЯМЕ посилання на .mp3 (Suno → Download → скопіювати),
-  // або лишай audio:"" і встав link на сторінку пісні (буде кнопка "Слухати").
+  // Пісні: audio — імʼя mp3-файлу в папці (напр. "locomotiv.mp3"), lyrics — текст (можна "").
+  // Поки mp3 немає — лишай audio:"" , зʼявиться напис "аудіо скоро".
   const SONGS = [
-    // { title:"Голос через океан", sub:"написано для Олександра", audio:"", link:"" },
+    {
+      title: "Локомотив",
+      sub: "від Марини — коханому на 50",
+      audio: "locomotiv.mp3",
+      lyrics: ""
+    },
+    {
+      title: "Той, хто крила собі кував",
+      sub: "від друзів",
+      audio: "druzi.mp3",
+      lyrics: ""
+    }
   ];
 
   // Гугл-фото альбом: встав share-посилання альбому, або лишай "" — тоді буде "скоро"
@@ -310,10 +330,19 @@
   (function(){
     const box = document.getElementById('songs');
     if(!SONGS.length){
-      box.innerHTML = `<div class="songs-empty">Пісні з’являться тут зовсім скоро.<br>Збережіть сторінку й поверніться.</div>`;
+      box.innerHTML = `<div class="songs-empty">Пісні з’являться тут зовсім скоро.</div>`;
       return;
     }
-    box.innerHTML = SONGS.map((s,i)=>`
+    box.innerHTML = SONGS.map((s,i)=>{
+      const hasLyrics = s.lyrics && s.lyrics.trim() && !s.lyrics.includes("__LYRICS");
+      const audioBlock = s.audio
+        ? `<audio controls preload="none" src="${s.audio}" data-song="${s.audio}" data-title="${(s.title||'').replace(/"/g,'')}"></audio>`
+        : `<div class="song-soon">аудіо з’явиться зовсім скоро</div>`;
+      const lyricsBlock = hasLyrics
+        ? `<button class="lyrics-toggle" onclick="toggleLyrics(${i})">показати текст ↓</button>
+           <div class="lyrics" id="lyrics-${i}">${esc(s.lyrics).replace(/\n/g,'<br>')}</div>`
+        : '';
+      return `
       <div class="song">
         <div class="song-top">
           <div class="song-num">${i+1}</div>
@@ -321,11 +350,19 @@
             <div class="song-title">${s.title||'Пісня '+(i+1)}</div>
             ${s.sub?`<div class="song-sub">${s.sub}</div>`:''}
           </div>
-          ${(!s.audio && s.link)?`<a class="song-play" href="${s.link}" target="_blank" style="text-decoration:none">▶</a>`:''}
         </div>
-        ${s.audio?`<audio controls preload="none" src="${s.audio}"></audio>`:''}
-      </div>`).join('');
+        ${audioBlock}
+        ${lyricsBlock}
+      </div>`;
+    }).join('');
   })();
+  function esc(s){ return String(s).replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  window.toggleLyrics = function(i){
+    const el = document.getElementById('lyrics-'+i);
+    const btn = el.previousElementSibling;
+    const open = el.classList.toggle('open');
+    btn.textContent = open ? 'сховати текст ↑' : 'показати текст ↓';
+  };
 
   // --- альбом ---
   (function(){
@@ -373,6 +410,43 @@
   }
 
   renderPills(); renderDeck();
+</script>
+
+<!-- Лічильник програвань пісень (та сама база) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, runTransaction }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCx5wWD_nqNim4NhVwsVo4LllgaoTRSD-w",
+    authDomain: "bilyakov-assets.firebaseapp.com",
+    databaseURL: "https://bilyakov-assets-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "bilyakov-assets",
+    storageBucket: "bilyakov-assets.firebasestorage.app",
+    messagingSenderId: "716274073756",
+    appId: "1:716274073756:web:5456688c674217202a2d59",
+    measurementId: "G-GNNTCX2BGF"
+  };
+
+  try{
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+    const counted = new Set();  // не рахувати повторно play тієї самої пісні в одному візиті
+    document.querySelectorAll('audio[data-song]').forEach(a=>{
+      a.addEventListener('play', ()=>{
+        const key = a.getAttribute('data-song').replace(/[.#$/\[\]]/g,'_');
+        if(counted.has(key)) return;
+        counted.add(key);
+        const title = a.getAttribute('data-title') || key;
+        const cRef = ref(db, "plays/"+key);
+        runTransaction(cRef, cur=>{
+          if(cur===null) return {title:title, n:1};
+          cur.n=(cur.n||0)+1; return cur;
+        });
+      }, {once:false});
+    });
+  }catch(e){ console.error("Лічильник:", e); }
 </script>
 </body>
 </html>
