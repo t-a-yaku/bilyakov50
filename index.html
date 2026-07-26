@@ -290,7 +290,7 @@
   // ============================================================
 
   // Портрет: постав пряме посилання на фото або лишай "" для заглушки
-  const PORTRAIT_URL = "";
+  const PORTRAIT_URL = "portrait.jpg";
 
   // Пісні Suno: додавай об'єкти. audio — ПРЯМЕ посилання на .mp3 (Suno → Download → скопіювати),
   // або лишай audio:"" і встав link на сторінку пісні (буде кнопка "Слухати").
@@ -302,7 +302,7 @@
   const ALBUM_URL = "https://photos.app.goo.gl/zzV439RkvptnBnFV8";
 
   // Організатор для збору слів
-  const ORGANIZER_PHONE = "";
+  const ORGANIZER_PHONE = "380975384674";
   const ORGANIZER_EMAIL = "";
 
   // ============================================================
@@ -385,12 +385,15 @@
     if(!t){ alert('Напишіть кілька слів 🙂'); return; }
     const msg = `Слово Олександру на 50-річчя${n?` (від ${n})`:''}:\n\n${t}`;
     if(ORGANIZER_PHONE){
-      window.location.href = `https://wa.me/${ORGANIZER_PHONE}?text=${encodeURIComponent(msg)}`;
+      // копіюємо текст і відкриваємо чат у Viber — лишиться вставити й надіслати
+      try{ navigator.clipboard?.writeText(msg.replace(/\\n/g,'\n')); }catch(e){}
+      alert('Ваше слово скопійовано 💛\nЗараз відкриється Viber — вставте текст у чат і надішліть.');
+      window.location.href = `viber://chat?number=%2B${ORGANIZER_PHONE}`;
     } else if(ORGANIZER_EMAIL){
       window.location.href = `mailto:${ORGANIZER_EMAIL}?subject=${encodeURIComponent('Слово Олександру · 50')}&body=${encodeURIComponent(msg)}`;
     } else {
       navigator.clipboard?.writeText(msg);
-      alert('Текст скопійовано. Вставте його у ваше повідомлення організаторам 💛\n(Організатор може вписати номер телефону в код, щоб слова йшли автоматично.)');
+      alert('Текст скопійовано. Вставте його у ваше повідомлення організаторам 💛');
     }
   }
 
