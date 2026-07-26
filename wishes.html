@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Побажання Олександру · 50</title>
+<style>
+  :root{ --gold:#f4c46b; --wine:#d98a9c; --sky:#c9bce8; --paper:#fbf6ee;
+    --serif:"Times New Roman", Georgia, serif; --sans:-apple-system,"Segoe UI",Roboto,sans-serif; }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{min-height:100%;}
+  body{font-family:var(--serif); color:#2a2320;
+    background:linear-gradient(180deg,#f4c46b 0%, #fbf6ee 30%, #fbf6ee 100%);}
+  .wrap{max-width:640px; margin:0 auto; padding:7vh 6vw 12vh;}
+  .head{text-align:center; margin-bottom:2.4rem;}
+  .eyebrow{font-family:var(--sans); letter-spacing:.4em; text-transform:uppercase;
+    font-size:.66rem; color:#b06a3c; margin-bottom:1rem;}
+  h1{font-size:clamp(2rem,8vw,2.8rem); font-weight:400; line-height:1.1; color:#7a4a2c;}
+  .sub{margin-top:1rem; font-style:italic; color:#6a5f52; line-height:1.6; font-size:1.05rem;}
+  .divider{width:64px; height:2px; background:var(--gold); margin:1.6rem auto;}
+
+  /* форма */
+  .form{background:#fff; border-radius:18px; padding:1.6rem; margin-bottom:2.6rem;
+    box-shadow:0 10px 30px rgba(122,74,44,.1);}
+  .form textarea{width:100%; min-height:110px; border:1.5px solid #e6d8c2; border-radius:12px;
+    padding:1rem; font-family:var(--serif); font-size:1.1rem; line-height:1.5; resize:vertical;}
+  .form input{width:100%; border:1.5px solid #e6d8c2; border-radius:12px; padding:.85rem 1rem;
+    font-family:var(--serif); font-size:1.05rem; margin-top:.8rem;}
+  .form button{width:100%; margin-top:1rem; padding:1.05rem; border:none; border-radius:12px;
+    background:var(--gold); color:#5a3f1a; font-family:var(--sans); font-size:1.05rem; font-weight:600;
+    cursor:pointer; transition:.2s;}
+  .form button:active{transform:scale(.98);}
+  .form .note{font-family:var(--sans); font-size:.8rem; color:#9a8a72; text-align:center; margin-top:.9rem; line-height:1.5;}
+
+  /* стрічка */
+  .feed-label{text-align:center; font-family:var(--sans); letter-spacing:.24em; text-transform:uppercase;
+    font-size:.66rem; color:#b06a3c; margin-bottom:1.6rem;}
+  .wish{background:#fff; border-radius:16px; padding:1.3rem 1.5rem; margin-bottom:1rem;
+    box-shadow:0 4px 16px rgba(122,74,44,.07); animation:rise .5s ease both;}
+  @keyframes rise{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);}}
+  .wish-text{font-size:1.12rem; line-height:1.6;}
+  .wish-from{margin-top:.7rem; font-family:var(--sans); font-size:.82rem; letter-spacing:.04em;
+    color:#b06a3c; text-align:right;}
+  .wish-from::before{content:"— ";}
+  .empty{text-align:center; color:#9a8a72; font-style:italic; padding:2.4rem 1rem; font-size:1.05rem;}
+  .status{text-align:center; font-family:var(--sans); font-size:.66rem; letter-spacing:.1em;
+    color:#b0a48c; margin-top:1.4rem;}
+
+  .gate{position:fixed; inset:0; z-index:50; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:2rem;
+    background:linear-gradient(180deg,#f4c46b,#fbf6ee);}
+  .gate h2{font-size:1.8rem; font-weight:400; color:#7a4a2c; margin-bottom:.4rem;}
+  .gate p{color:#6a5f52; font-style:italic; margin-bottom:1.6rem;}
+  .gate input{padding:.9rem 1.2rem; border:1.5px solid #e6d8c2; border-radius:12px;
+    font-family:var(--serif); font-size:1.2rem; text-align:center; background:#fff; width:min(80vw,300px);}
+  .gate button{margin-top:1rem; padding:.9rem 2rem; border:none; border-radius:12px; cursor:pointer;
+    background:var(--gold); color:#5a3f1a; font-family:var(--sans); font-size:1rem; font-weight:600;}
+  .gate .err{color:#c0605c; font-size:.9rem; margin-top:.8rem; min-height:1.2em;}
+  .gate .seal{font-family:var(--sans); letter-spacing:.4em; font-size:.66rem; text-transform:uppercase;
+    color:#b06a3c; margin-bottom:1.6rem;}
+</style>
+</head>
+<body>
+  <div class="gate" id="gate">
+    <div class="seal">побажання · Олександр 50</div>
+    <h2>Книга побажань</h2>
+    <p>Введіть кодове слово вечора.</p>
+    <input id="code" type="text" placeholder="кодове слово" autocomplete="off" autocapitalize="none">
+    <button id="enterBtn">Увійти</button>
+    <div class="err" id="cerr"></div>
+  </div>
+
+  <div class="wrap" id="wrap" style="display:none">
+    <div class="head">
+      <div class="eyebrow">від щирого серця</div>
+      <h1>Побажання Олександру</h1>
+      <div class="divider"></div>
+      <p class="sub">Чесноти — це те, ким Олександр уже є. А тут — те, чого ми йому бажаємо:
+        нових здобутків, доброї дороги, захисту й здійснення мрій. Напишіть своє — воно лишиться в його книзі назавжди.</p>
+    </div>
+
+    <div class="form">
+      <textarea id="w-text" placeholder="Ваше побажання Олександру…"></textarea>
+      <input id="w-name" type="text" placeholder="Ваше ім’я">
+      <button id="sendBtn">Додати побажання</button>
+      <div class="note">Побажання одразу з’явиться нижче й збережеться в книзі. Нічого надсилати не треба.</div>
+    </div>
+
+    <div class="feed-label">що вже побажали</div>
+    <div id="feed"></div>
+    <div class="empty" id="empty">Станьте першим, хто залишить побажання.</div>
+    <div class="status" id="status">під’єднання…</div>
+  </div>
+
+<script>
+  var CODE = "maryna";
+  function norm(s){ return s.trim().toLowerCase().replace(/\s+/g," "); }
+  function esc(s){ return String(s).replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  var wishes = {};
+  window.__fb = { push:null, ready:false };
+
+  function checkCode(){
+    var v = norm(document.getElementById("code").value).replace("марина","maryna");
+    if(v===CODE){
+      document.getElementById("gate").style.display="none";
+      document.getElementById("wrap").style.display="block";
+      setTimeout(function(){ document.getElementById("w-text").focus(); },100);
+      render();
+    } else { document.getElementById("cerr").textContent="Спробуйте ще раз 🙂"; }
+  }
+  function send(){
+    var t=document.getElementById("w-text").value.trim();
+    var n=document.getElementById("w-name").value.trim();
+    if(!t){ document.getElementById("w-text").focus(); return; }
+    if(window.__fb.ready){ window.__fb.push(t, n); }
+    document.getElementById("w-text").value="";
+    document.getElementById("w-name").value="";
+    document.getElementById("w-text").focus();
+  }
+  function setStatus(on){
+    document.getElementById("status").textContent = on? "наживо · книга оновлюється сама" : "очікує мережу…";
+  }
+  function render(){
+    var feed=document.getElementById("feed");
+    var arr=Object.keys(wishes).map(function(k){return wishes[k];})
+      .sort(function(a,b){return (b.ts||0)-(a.ts||0);});
+    document.getElementById("empty").style.display = arr.length? "none":"block";
+    feed.innerHTML = arr.map(function(w){
+      return '<div class="wish"><div class="wish-text">'+esc(w.text)+'</div>'+
+        (w.name? '<div class="wish-from">'+esc(w.name)+'</div>':'')+'</div>';
+    }).join("");
+  }
+  window.__wishes = { set:function(w){ wishes=w||{}; render(); }, setStatus:setStatus };
+
+  document.getElementById("enterBtn").addEventListener("click", checkCode);
+  document.getElementById("code").addEventListener("keydown", function(e){ if(e.key==="Enter") checkCode(); });
+  document.getElementById("sendBtn").addEventListener("click", send);
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, push }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCx5wWD_nqNim4NhVwsVo4LllgaoTRSD-w",
+    authDomain: "bilyakov-assets.firebaseapp.com",
+    databaseURL: "https://bilyakov-assets-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "bilyakov-assets",
+    storageBucket: "bilyakov-assets.firebasestorage.app",
+    messagingSenderId: "716274073756",
+    appId: "1:716274073756:web:5456688c674217202a2d59",
+    measurementId: "G-GNNTCX2BGF"
+  };
+
+  try{
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+    const wRef = ref(db, "wishes");
+    window.__fb.push = function(text, name){
+      push(wRef, { text: text, name: name||"", ts: Date.now() });
+    };
+    window.__fb.ready = true;
+    onValue(wRef, snap=>{
+      window.__wishes.set(snap.val() || {});
+      window.__wishes.setStatus(true);
+    }, err=>{ window.__wishes.setStatus(false); });
+  }catch(e){
+    window.__wishes.setStatus(false);
+    console.error("Firebase:", e);
+  }
+</script>
+</body>
+</html>
